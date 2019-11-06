@@ -70,17 +70,37 @@ float Controller::getBatteryVoltage()
 
 int Controller::getBrightness()
 {
-  colorSensor.getRawColor(rgb);
-  int luminance = 0.298912 * rgb.r + 0.586611 * rgb.g + 0.114478 * rgb.b;
+  int r, g, b;
+  getRawColor(r, g, b);
+  int luminance = 0.298912 * r + 0.586611 * g + 0.114478 * b;
   return luminance;
+}
+
+int limitRgbValue(const int value)
+{
+  constexpr int max = 255;
+  constexpr int min = 0;
+  if(value >= max) {
+    return max;
+  } else if(value <= min) {
+    return min;
+  }
+  return value;
 }
 
 void Controller::getRawColor(int& r, int& g, int& b)
 {
+  constexpr int R_MIN = 9;
+  constexpr int G_MIN = 6;
+  constexpr int B_MIN = 5;
+  constexpr int R_MAX = 92;
+  constexpr int G_MAX = 100;
+  constexpr int B_MAX = 72;
+
   colorSensor.getRawColor(rgb);
-  r = rgb.r;
-  g = rgb.g;
-  b = rgb.b;
+  r = limitRgbValue(static_cast<double>((rgb.r - R_MIN)) * 255 / (R_MAX - R_MIN));
+  g = limitRgbValue(static_cast<double>((rgb.g - G_MIN)) * 255 / (G_MAX - G_MIN));
+  b = limitRgbValue(static_cast<double>((rgb.b - B_MIN)) * 255 / (B_MAX - B_MIN));
 }
 
 Color Controller::hsvToColor(const HsvStatus& status)
@@ -163,13 +183,13 @@ Color Controller::hsvToColor(const HsvStatus& status)
         }
       } else {
         return Color::black;
-        
       }
     }
   }
 }
 
-Color Controller::getColor(){
+Color Controller::getColor()
+{
   int r, g, b;
   r = g = b = 0;
   this->getRawColor(r, g, b);
@@ -177,10 +197,11 @@ Color Controller::getColor(){
   return this->hsvToColor(this->getHsv());
 }
 
-void Controller::registerColor(){
+void Controller::registerColor()
+{
   colorBuffer[colorBufferCounter] = getColor();
   colorBufferCounter++;
-  if(colorBufferSize <= colorBufferCounter){
+  if(colorBufferSize <= colorBufferCounter) {
     colorBufferCounter = 0;
   }
 }
@@ -328,20 +349,7 @@ void Controller::stopMotor()
 
 int Controller::getAngleOfRotation()
 {
-  int angle = gyroSensor.getAngle();
-  //角度を[0-360]の範囲で表す,
-  //右手系(反時計回り)が正である
-  return Controller::limitAngle(angle);
-}
-
-int Controller::limitAngle(int angle)
-{
-  angle = angle % 360;
-  if(angle < 0) {
-    angle = 360 + angle;
-    angle = limitAngle(angle);
-  }
-  return angle;
+  return gyroSensor.getAngle();
 }
 
 void Controller::moveArm(int count, int pwm)
@@ -366,4 +374,16 @@ void Controller::moveArm(int count, int pwm)
 void Controller::resetArmMotorCount()
 {
   liftMotor.reset();
+}
+
+void Controller::resetGyroSensor()
+{
+  // なぜかジャイロセンサーの値が訳の分からない値になることがあるので、0になるまでリセットする
+  while(gyroSensor.getAngle() != 0) gyroSensor.reset();
+}
+
+void Controller::stopLiftMotor()
+{
+  this->resetArmMotorCount();
+  this->tslpTsk(1500);
 }
