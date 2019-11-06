@@ -13,6 +13,7 @@ MoveDirectGarage::MoveDirectGarage(Controller &controller_, int targetBrightness
 void MoveDirectGarage::moveDirectGarageL()
 {
     Navigator navigator(controller ,targetBrightness);
+    MoveDirectGarage moveDirectGarage(controller ,targetBrightness);
 
     //ブロックを押す
     navigator.moveToSpecifiedColor(Color::yellow, 10);   
