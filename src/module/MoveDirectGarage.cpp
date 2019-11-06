@@ -13,39 +13,49 @@ MoveDirectGarage::MoveDirectGarage(Controller &controller_, int targetBrightness
 void MoveDirectGarage::moveDirectGarageL()
 {
     Navigator navigator(controller ,targetBrightness);
-    MoveDirectGarage moveDirectGarage(controller ,targetBrightness);
+    BlockBingo blockBingo(controller ,targetBrightness);
 
-    //ブロックを押す
-    navigator.moveToSpecifiedColor(Color::yellow, 10);   
-    navigator.move(-60, 10, 0.813);
-    navigator.spin(45.0,false);
-    navigator.moveToSpecifiedColor(Color::black, 10);
-    //4のとこ
-    navigator.moveToSpecifiedColor(Color::white, 10);    
-    navigator.moveToSpecifiedColor(Color::black, 10);
-    navigator.move(30, 10, 0.813);
-    navigator.spin(45.0,true);
-    //ブロックを押す
-    navigator.moveToSpecifiedColor(Color::red, 10);
-    navigator.move(-60, 10, 0.813);
-    navigator.spin(45.0,true);
-    navigator.moveToSpecifiedColor(Color::black, 10);
-    navigator.move(65, 10, 0.813);
-    navigator.spin(45.0,false);
-    //真ん中
-    navigator.moveToSpecifiedColor(Color::white, 10);
-    navigator.moveToSpecifiedColor(Color::black, 10);
-    navigator.moveToSpecifiedColor(Color::white, 10);
-    navigator.move(30, 10, 0.813);
-    navigator.spin(90.0,true);
+    // //ブロックを押す
+    // navigator.moveToSpecifiedColor(Color::yellow, 10);   
+    // navigator.move(-60, 10, 0.813);
+    // navigator.spin(45.0,false);
+    // navigator.moveToSpecifiedColor(Color::black, 10);
+    // //4のとこ
+    // navigator.moveToSpecifiedColor(Color::white, 10);    
+    // navigator.moveToSpecifiedColor(Color::black, 10);
+    // navigator.move(30, 10, 0.813);
+    // navigator.spin(45.0,true);
+    // //ブロックを押す
+    // navigator.moveToSpecifiedColor(Color::red, 10);
+    // navigator.move(-60, 10, 0.813);
+    // navigator.spin(45.0,true);
+    // navigator.moveToSpecifiedColor(Color::black, 10);
+    // navigator.move(65, 10, 0.813);
+    // navigator.spin(45.0,false);
+    // //真ん中
+    // navigator.moveToSpecifiedColor(Color::white, 10);
+    // navigator.moveToSpecifiedColor(Color::black, 10);
+    // navigator.moveToSpecifiedColor(Color::white, 10);
+    // navigator.move(30, 10, 0.813);
+    // navigator.spin(90.0,true);
+    // navigator.moveToSpecifiedColor(Color::green, 10);
+    // navigator.move(-60, 8, 0.813);
+    // navigator.spin(45.0,false);
+    // //５のとこ
+    // navigator.moveToSpecifiedColor(Color::black, 10);
+    // navigator.moveToSpecifiedColor(Color::white, 10);
+    // navigator.move(20, 10, 0.813);
+    // navigator.spin(45.0,false);
+    //navigator.traceBlackLineToSpecifiedColor(Color::yellow, 10, 0.813, true);
+    navigator.moveToSpecifiedColor(Color::yellow, 10);
+    blockBingo.execQuickPutR();
+    navigator.move(30);
+    navigator.moveToSpecifiedColor(Color::yellow, 10);
+    navigator.move(30);
     navigator.moveToSpecifiedColor(Color::green, 10);
-    navigator.move(-60, 8, 0.813);
-    navigator.spin(45.0,false);
-    //５のとこ
-    navigator.moveToSpecifiedColor(Color::black, 10);
-    navigator.moveToSpecifiedColor(Color::white, 10);
-    navigator.move(20, 10, 0.813);
-    navigator.spin(45.0,false);
+    blockBingo.execQuickPutR();
+    navigator.move(30);
+
     //以下はparkingクラスを使用
 
 }

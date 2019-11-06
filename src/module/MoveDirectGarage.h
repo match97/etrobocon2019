@@ -8,6 +8,7 @@
 
 #include "Controller.h"
 #include "Navigator.h"
+#include "BlockBingo.h"
 
 class MoveDirectGarage {
   private:

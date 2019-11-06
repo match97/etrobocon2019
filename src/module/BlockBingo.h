@@ -146,11 +146,6 @@ class BlockBingo {
    * 黒線の中点まで斜めに移動し、ブロックサークル6の中央まで移動する。
    */
   void moveCircle6OfL();
-  /**
-   * パソコンから受け取ったリストの通りに処理を実行する
-   * @param orders [命令の情報のリスト]
-   */
-  template <int N>
     /**
    * QUICK_PUT_Rの命令を実行する
    * @brief ブロックを持った状態で交点サークルから右向きにブロックサークルの中心に設置して出発した元の交点サークルまで戻る
@@ -161,6 +156,11 @@ class BlockBingo {
    * @brief ブロックを持った状態で交点サークルから左向きにブロックサークルの中心に設置して出発した元の交点サークルまで戻る
    */  
   void execQuickPutL();
+  /**
+   * パソコンから受け取ったリストの通りに処理を実行する
+   * @param orders [命令の情報のリスト]
+   */
+  template <int N>
   void execOrder(std::array<char, N>& orderKeys)
   {
     Instructions instructions;
